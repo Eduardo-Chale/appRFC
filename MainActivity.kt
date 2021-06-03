@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity() {
             anio.add(i)
         }
         val dia = arrayOf <String>("01","02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31")
+
+
 
         //UNION DE LOS VIEW SPINNER CON LOS DATOS DE LOS ARREGLOS
         val spinMes= findViewById<Spinner>(R.id.spnMes)
@@ -45,17 +48,26 @@ class MainActivity : AppCompatActivity() {
         val dia =spnDia.getSelectedItem().toString()
 
         //SEPARACION DE LAS CADENAS DE CARACTERS DONDE ESTAN LOS NOMBRES, APELLIDOS Y AÑO DE NACIMIENTO
-        val paterno = editTxtPaterno.text.chunked(1)
-        val materno =editTxtMaterno.text.chunked(1)
-        val nombre =editTxtName.text.chunked(1)
+        val paterno = editTxtPaterno.text.toString().toUpperCase().chunked(1)
+        val materno =editTxtMaterno.text.toString().toUpperCase().chunked(1)
+        val nombre =editTxtName.text.toString().toUpperCase().chunked(1)
         val anioDig=anio.chunked(1)
 
 
         //METODO PARA IDENTIFICAR LA PRIMERA VOCAL DEL APELLIDO PATERNO
         val vocal =paterno.find { it.equals("A")|| it.equals("E") || it.equals("I") || it.equals("O")||it.equals("U")}
 
+        //ARREGLO QUE UTILIZA PARA CREAR LA HOMOCLAVE
+        val homoclaveDig= arrayOf <String> ("1","2","3","4","5","6","7","8","9","A","B","C","D","F","G","H","I","J","K","L","M","N","O","P","Q","R",
+                "S","T","U","V","W","X","Y","Z")
+
+        //GENERACION DE LA HOMOCLAVE
+        val randomValue1= Random.nextInt(0,homoclaveDig.size)
+        val randomValue2= Random.nextInt(0,homoclaveDig.size)
+        val randomValue3= Random.nextInt(0,homoclaveDig.size)
+
         //LLENADO DE LA VARIBALE DE RFC
-        Rfc=paterno[0]+vocal+materno[0]+nombre[0]+anioDig[2]+anioDig[3]+mes+dia
+        Rfc=paterno[0]+vocal+materno[0]+nombre[0]+anioDig[2]+anioDig[3]+mes+dia+homoclaveDig[randomValue1]+homoclaveDig[randomValue2]+homoclaveDig[randomValue3]
         //IMPRESION DE LA VARIABLE DENTRO DE LA APLICACION Y MEDIANTE LINEA DE CODIGO
         println(Rfc)
         txtRFC.text=Rfc
